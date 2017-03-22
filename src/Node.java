@@ -1,7 +1,6 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
+
 
 /**
  * Created by micha on 21.03.2017.
@@ -38,8 +37,6 @@ public class Node {
     public Node addChild(Character letter, boolean isWord){
         Node child = new Node(this,letter,isWord);
         children.add(child);
-        System.out.println("ADDCHILD current letter= "+this.getLetter());
-        System.out.println("ADDCHILD child letter=   "+child.getLetter());
         return child;
     }
 

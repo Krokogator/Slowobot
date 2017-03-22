@@ -1,8 +1,8 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 /**
  * Created by micha on 21.03.2017.
+ * Operates on trees
  */
 public class Dictionary {
     private Tree tree;
@@ -11,13 +11,20 @@ public class Dictionary {
         tree = new Tree();
     }
 
+    public void loadDictionary(){
+        LoadDict loader = new LoadDict();
+        try {
+            loader.loadToTree(tree);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-
-
-    /*
-    public boolean IsAWord(String word){
-        return tree.find(word);
+        //tree.printAll();
     }
-    */
+
+
+
+
+
+
 }

@@ -6,6 +6,7 @@ import java.util.Stack;
 
 /**
  * Created by micha on 21.03.2017.
+ * One instance class that operates on nodes.
  */
 public class Tree {
     private List<Node> children = new ArrayList<>();
@@ -19,7 +20,7 @@ public class Tree {
 
     public void addWord(String word){
         Stack<Character> stack = convertToStack(word);      //convert String to letters stack
-        for(Node child : children){                         //find first letter, pop and do recursive on rest
+        for(Node child : children){                         //find first letter, pop and do recursive on the rest
             if(child.getLetter().equals(stack.peek())){
                 stack.pop();
                 addRecurent(child,stack);
@@ -42,22 +43,27 @@ public class Tree {
             return true;
         }
 
-        for(Node child : node.getChildren()){
-            if(child==null){
-                addRecurent(node.addChild(letter,valid),letters);
-                return true;
+        if(node.getChildren().size()==1){
+            for(Node child : node.getChildren()){
+                if(child==null){
+                    addRecurent(node.addChild(letter,valid),letters);
+                    return true;
+                }
             }
         }
 
-        for(Node child : node.getChildren()){
-            if(child.getLetter().equals(letter)){
-                if(valid){  return false;   }
-                else{
+        for(Node child : node.getChildren()) {
+            if(child==null){ continue;}
+            if (child.getLetter().equals(letter)) {
+                if (valid) {
+                    return false;
+                } else {
                     addRecurent(child, letters);
                     return true;
                 }
             }
         }
+
 
         //node.addChild(letter,valid);
         addRecurent(node.addChild(letter,valid),letters);

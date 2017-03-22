@@ -1,8 +1,10 @@
 public class Main {
 
     public static void main(String[] args) {
-        Tree drzewo = new Tree();
-        drzewo.printAll();
+        Dictionary dictionary = new Dictionary();
+        Character[][] input = {{'a','b','e','f'},{'a','b','c','d'},{'a','b','c','d'},{'a','b','c','d'}};
+        Grid grid = new Grid(input);
 
+        dictionary.loadDictionary();
     }
 }
