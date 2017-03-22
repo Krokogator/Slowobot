@@ -43,43 +43,6 @@ public class Node {
         return child;
     }
 
-    public void reccurentAdd(Node node, Stack<Character> letters){
-        System.out.println("current node= "+node.getLetter());
-        System.out.println("letter to add= "+letters.peek());
-
-        if(letters.isEmpty()){
-            addNullChild();System.out.println("wołacz1");
-        }
-
-        if(node.getChildren().isEmpty()){
-            System.out.println(letters.peek());
-            Node child = node.addChild(letters.peek(), false);
-            System.out.println("Child char:"+child.getLetter());
-            System.out.println("Child children:"+child.getChildren());
-            letters.pop();
-            if(letters.isEmpty()==false){
-                reccurentAdd(child, letters);}
-        }
-
-        else {
-
-            for (Node child : node.getChildren()) {
-                System.out.println("wołacz2");
-                if (child.getLetter().equals(letters.peek())) {
-                    System.out.println("wołacz3");
-                    letters.pop();
-                    reccurentAdd(child, letters);
-                } else {
-                    System.out.println("wołacz4");
-                    //child.addChild(letters.pop(), false);
-                    child = node.addChild(letters.pop(), false);
-                    reccurentAdd(child, letters);
-                }
-                break;
-            }
-        }
-    }
-
     public Node getParent(){ return parent; }
 
     public List<Node> getChildren(){  return children;  }
