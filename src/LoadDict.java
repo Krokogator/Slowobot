@@ -7,13 +7,13 @@ import java.math.BigInteger;
  * Created by micha on 22.03.2017.
  */
 public class LoadDict {
-    private final String path = "C:\\Users\\micha\\Downloads\\sjp-20170314\\slowa.txt";;
+    private final String path = "C:\\Users\\micha\\Desktop\\Dictionary\\slowa.txt";;
 
     public LoadDict(){
 
     }
 
-    public void loadToTree(Tree tree) throws IOException {
+    public void loadToTree(Tree tree, String path) throws IOException {
         FileReader fr = null;
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;

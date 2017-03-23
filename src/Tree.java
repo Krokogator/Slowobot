@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.Stack;
 
 /**
@@ -29,20 +30,50 @@ public class Tree {
         }
     }
 
+    public boolean checkWord(String word){
+        if(word.equals("")){return false;}
+        Stack<Character> letters = convertToStack(word);
+        Character letter = letters.pop();
+        for(Node child : children){
+            if(child.getLetter().equals(letter)){
+                if(letters.isEmpty()){
+                    return child.isValid();
+                }
+                else return checkWord(child, letters);
+            }
+        }
+        return false;
+    }
+
+    private boolean checkWord(Node node, Stack<Character> letters){
+        Character letter = letters.pop();
+        for(Node child : node.getChildren()){
+            if(child==null){    continue;   }
+            if(child.getLetter().equals(letter)){
+                if(letters.isEmpty()){  return child.isValid();  }
+                return checkWord(child, letters);
+            }
+        }
+        return false;
+    }
+
     private boolean addRecurent(Node node, Stack<Character> letters){
         boolean valid=false;
 
-        if(letters.isEmpty()){  return false;   }
+        //no more letters end statement
+        if(letters.isEmpty()){  return true;   }
 
+        //pop and mark as valid if last letter
         Character letter = letters.pop();
         if(letters.isEmpty()){  valid=true; }
 
-
+        //if no children (but still have letters) we create new one with valid false
         if(node.getChildren().isEmpty()){
             addRecurent(node.addChild(letter,valid),letters);
             return true;
         }
 
+        //if only child is null we create new one with valid false
         if(node.getChildren().size()==1){
             for(Node child : node.getChildren()){
                 if(child==null){
@@ -52,10 +83,12 @@ public class Tree {
             }
         }
 
+        //if child null skip iteration, if letter found
         for(Node child : node.getChildren()) {
             if(child==null){ continue;}
             if (child.getLetter().equals(letter)) {
                 if (valid) {
+                    child.addNullChild();
                     return false;
                 } else {
                     addRecurent(child, letters);

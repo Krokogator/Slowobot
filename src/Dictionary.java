@@ -11,20 +11,24 @@ public class Dictionary {
         tree = new Tree();
     }
 
-    public void loadDictionary(){
+    public void load(String path){
         LoadDict loader = new LoadDict();
         try {
-            loader.loadToTree(tree);
+            loader.loadToTree(tree, path);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Dictionary Load Successful!");
 
         //tree.printAll();
     }
 
-
-
-
-
-
+    public void testPacket(String testword){
+        if(tree.checkWord(testword)){
+            System.out.println("found= "+"\""+testword+"\"");
+        }
+        else{
+            System.out.println("not found= "+"\""+testword+"\"");
+        }
+    }
 }

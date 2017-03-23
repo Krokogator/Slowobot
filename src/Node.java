@@ -21,17 +21,26 @@ public class Node {
     }
 
     public Node(Node parent, Character letter, boolean isWord){
-        this.parent=parent;
+        this.parent = parent;
         this.letter = letter;
-        if(isWord){ addNullChild(); }
+        if(isWord){ this.addNullChild(); }
     }
 
     public Character getLetter(){
         return letter;
     }
 
-    private void addNullChild(){
+    public void addNullChild(){
         children.add(null);
+    }
+
+    public boolean isValid(){
+        for(Node child : getChildren()){
+            if(child==null){
+                return true;
+            }
+        }
+        return false;
     }
 
     public Node addChild(Character letter, boolean isWord){
