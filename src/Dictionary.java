@@ -13,24 +13,25 @@ public class Dictionary {
         tree = new Tree();
     }
 
-    public void load(String path){
+    public Tree load(String path){
         LoadDict loader = new LoadDict();
         try {
             loader.loadToTree(tree, path);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Dictionary Load Successful!");
 
-        //tree.printAll();
+
+        tree.printAll();
+        return tree;
     }
 
     public void testPacket(String testword){
         if(tree.checkWord(testword)){
-            System.out.println("found= "+"\""+testword+"\"");
+            System.out.println("true");
         }
         else{
-            System.out.println("not found= "+"\""+testword+"\"");
+            System.out.println("false");
         }
     }
 }

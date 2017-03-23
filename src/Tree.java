@@ -97,8 +97,6 @@ public class Tree {
             }
         }
 
-
-        //node.addChild(letter,valid);
         addRecurent(node.addChild(letter,valid),letters);
         return true;
     }

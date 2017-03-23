@@ -6,19 +6,24 @@ import java.io.IOException;
  * Created by micha on 22.03.2017.
  */
 public class LoadDict {
-    private final String path = "C:\\Users\\micha\\Desktop\\Dictionary\\slowa.txt";;
+    //private final String path = "C:\\Users\\micha\\Desktop\\Dictionary\\slowa.txt";;
 
-    public LoadDict(){
+    public LoadDict(){}
 
-    }
-
-    public void loadToTree(Tree tree, String path) throws IOException {
-        FileReader fr = null;
+    public Tree loadToTree(Tree tree, String path) throws IOException {
+        long timeStart = System.currentTimeMillis();
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
                 tree.addWord(line);
             }
         }
+        summary(System.currentTimeMillis() - timeStart);
+        return tree;
+    }
+
+    private void summary(long timeElapsed){
+        System.out.println("Dictionary Load Successful!");
+        System.out.println("Load Time: "+ timeElapsed + "ms" +"\n");
     }
 }

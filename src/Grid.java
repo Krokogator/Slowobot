@@ -9,5 +9,8 @@ public class Grid {
         this.grid=grid;
     }
 
+    private void initBoxes(){
+
+    }
 
 }
