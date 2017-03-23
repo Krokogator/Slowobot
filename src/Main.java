@@ -5,8 +5,11 @@ public class Main {
         Character[][] input = {{'a','b','e','f'},{'a','b','c','d'},{'a','b','c','d'},{'a','b','c','d'}};
 
         Grid grid = new Grid(input);
-
+        long startTime = System.currentTimeMillis();
         dictionary.load("C:\\Users\\micha\\Desktop\\Dictionary\\slowa.txt");
-        dictionary.testPacket("");
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        long elapsedSeconds = elapsedTime / 1000;
+        System.out.println("Load Time: "+ elapsedTime + "ms" +"\n");
+        dictionary.testPacket("stęchlizna");
     }
 }

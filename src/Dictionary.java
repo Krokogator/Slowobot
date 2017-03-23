@@ -2,7 +2,9 @@ import java.io.IOException;
 
 /**
  * Created by micha on 21.03.2017.
+ * Main dictionary class
  * Operates on trees
+ * Access to simple functions/methods like .exist, .add, etc.
  */
 public class Dictionary {
     private Tree tree;

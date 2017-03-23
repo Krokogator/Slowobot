@@ -67,13 +67,13 @@ public class Tree {
         Character letter = letters.pop();
         if(letters.isEmpty()){  valid=true; }
 
-        //if no children (but still have letters) we create new one with valid false
+        //if no children (but still have letters) we create new one
         if(node.getChildren().isEmpty()){
             addRecurent(node.addChild(letter,valid),letters);
             return true;
         }
 
-        //if only child is null we create new one with valid false
+        //if only child is null we create new one
         if(node.getChildren().size()==1){
             for(Node child : node.getChildren()){
                 if(child==null){
