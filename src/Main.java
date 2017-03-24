@@ -1,41 +1,43 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Dictionary dictionary = new Dictionary();
-        Character[] input = {'w','t','h','a','c','a','k','f','h','r','n','t','m','o','s','i'};
+        long startTime,elapsedTime;
 
+        Dictionary dictionary = new Dictionary();
         Tree tree = dictionary.load("C:\\Users\\micha\\Desktop\\Dictionary\\slowa.txt");
 
-        Grid grid = new Grid(input);
-        grid.writeBoxes();
-        //System.out.println(grid.test());
-        grid.findPaths(tree);
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String textinput="";
-        System.out.print("Podaj wyraz: ");
-        textinput = br.readLine();
+        System.out.print("Podaj ciąg znaków (bez spacji): ");
+        String textinput = br.readLine();
+
         while(!textinput.equals("exit")) {
-            long startTime = System.nanoTime();
-            dictionary.testPacket(textinput);
-            dictionary.testValidPacket(textinput);
-            long elapsedTime = System.nanoTime() - startTime;
+            startTime = System.currentTimeMillis();
+
+            //task start
+            char[] chars = textinput.toCharArray();
+            Character[] input = new Character[16];
+            for(int i=0;i<16;i++){
+                input[i]=chars[i];
+            }
+            Grid grid = new Grid(input);
+            grid.findPaths(tree);
+            //task end
+
+            elapsedTime = System.currentTimeMillis() - startTime;
             if(elapsedTime<1) {
                 System.out.println("Search Time: < 1ms" + "\n");
             }
             else
             {
-                System.out.println("Search Time: " + elapsedTime + "ns" + "\n");
+                System.out.println("Search Time: " + elapsedTime + "ms" + "\n");
             }
+            System.out.println("Podaj ciąg znaków (bez spacji): ");
             textinput = br.readLine();
         }
-
-
 
     }
 }

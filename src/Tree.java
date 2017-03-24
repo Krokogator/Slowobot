@@ -19,7 +19,7 @@ public class Tree {
             children.add(node);        }
     }
 
-    //checks if tree starts from the word first letter
+    //checks if tree contains whole word AND word is valid
     public boolean checkWord(String word) {
         //System.out.println("Check word: "+word);
         if (word.equals("")) {
@@ -36,8 +36,6 @@ public class Tree {
         }
         return false;
     }
-
-    //checks if tree contains whole word AND word is valid
     private boolean checkWord(Node node, Stack<Character> letters){
         Character letter = letters.pop();
         for(Node child : node.getChildren()){
@@ -67,7 +65,6 @@ public class Tree {
         }
         return false;
     }
-
     private boolean checkPath(Node node, Stack<Character> otherLetters){
         Character letter = otherLetters.pop();
         for(Node child : node.getChildren()){

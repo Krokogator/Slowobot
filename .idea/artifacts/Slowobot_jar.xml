@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Slowobot:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Slowobot_jar</output-path>
+    <root id="archive" name="Slowobot.jar">
+      <element id="module-output" name="Slowobot" />
+    </root>
+  </artifact>
+</component>

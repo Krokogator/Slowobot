@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator;
+
 import java.io.IOException;
 
 /**
@@ -20,8 +22,6 @@ public class Dictionary {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         //tree.printAll();
         return tree;
     }

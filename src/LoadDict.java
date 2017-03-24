@@ -1,12 +1,12 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator;
 
 /**
  * Created by micha on 22.03.2017.
  */
 public class LoadDict {
-    //private final String path = "C:\\Users\\micha\\Desktop\\Dictionary\\slowa.txt";;
 
     public LoadDict(){}
 

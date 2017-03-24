@@ -13,15 +13,12 @@ import java.util.List;
 public class Node {
     private Character letter = null;
     private List<Node> children = new ArrayList<>();
-    private final Node parent;
 
     public Node(Character letter){
         this.letter=letter;
-        this.parent=null;
     }
 
-    public Node(Node parent, Character letter, boolean isWord){
-        this.parent = parent;
+    public Node(Character letter, boolean isWord){
         this.letter = letter;
         if(isWord){ this.addNullChild(); }
     }
@@ -44,12 +41,10 @@ public class Node {
     }
 
     public Node addChild(Character letter, boolean isWord){
-        Node child = new Node(this,letter,isWord);
+        Node child = new Node(letter,isWord);
         children.add(child);
         return child;
     }
-
-    public Node getParent(){ return parent; }
 
     public List<Node> getChildren(){  return children;  }
 }

@@ -1,14 +1,30 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by micha on 22.03.2017.
- * Represents 4x4 grid from game and finds paths between letters
+ * Represents 4x4 grid from game and finds all possible words
  */
 
+class Pair{
+
+    /**
+     * Pairs (letter,id)
+     * Each path made of those pairs
+     */
+
+    Character letter;
+    int id;
+    public Pair(int id, Character letter){
+        this.letter=letter;
+        this.id=id;
+    }
+
+    public Character getLetter(){
+        return letter;
+    }
+}
 public class Grid {
+
     private Character[] grid = new Character[16];
     private List<Box> boxes= new ArrayList<>();
     private List<List<Pair>> paths = new ArrayList<>();
@@ -19,21 +35,9 @@ public class Grid {
         this.boxes = initBoxes(noDeadBoxes);
     }
 
-    /**
-     * Musimy zwracać:
-     *
-     * 1.Zwracanie pojedynczej ścieżki prawdop od razu w postaci listy jednoelementowej (w momencie gdy nie możemy nigdzie przejść, bo
-     *      a) nie ma sąsiadów %% exists -> return one element array of paths
-     *      b) nasz wyraz + litera sąsiada != exists
-     * 2.W każdym przejściu dany obiekt musi zbudować liste ścieżek (POPRAWNYCH!), która będzie zawierać
-     *      a) aktualną ścieżkę w której jesteśmy ( CHYBA ŻE i tak nie możemy udać się w żadne miejsce wobec tego pkt 1. powinien mieć pierwszeństwo i być wywoływany zawsze gdy zachodzi)
-     *      b) nadścieżki, czyli ścieżka aktualna + wszystkie ścieżki dłuższe od naszej
-     *
-     *      rozważenie par (Character,Id) wówczas każdy zbudowany z takiej pary wyraz jednoznacznie określałby ścieżkę która go buduje
-     */
-
-
+    //runs my custom DFS algorithm on each letter/box
     public void findPaths(Tree tree){
+        paths.clear();
         for(int i=0;i<16;i++) {
             List<Pair> currentPath = new ArrayList<>();
             Box box = boxes.get(i);
@@ -42,33 +46,17 @@ public class Grid {
             List<Box> newboxes = initBoxes(indexDead);
             customDFS(box, tree, newboxes, paths, currentPath);
         }
+        //displayListOfListsOfPairs(paths);
+        displaySorted(paths);
     }
 
-    public String pairToWord(List<Pair> path){
-        String result="";
-        for(Pair pair : path){
-            result=result+pair.getLetter();
-        }
-        return result;
-    }
-
-    private List<Integer>getDead(List<Box> Alive){
-        List<Integer> alive = new ArrayList<>();
-        List<Integer> dead = new ArrayList<>();
-        for(Box box : Alive){
-            alive.add(box.getId());
-        }
-        for(int i=1;i<17;i++){
-            if(!alive.contains(i)){dead.add(i);
-                //System.out.println(i);
-                }
-
-        }
-
-        return dead;
-    }
-
-    private void customDFS(Box box, Tree tree, List<Box> aliveBoxes, List<List<Pair>> validPaths, List<Pair> possiblePath){
+    /**
+     * custom DFS algorithm that looks for words > 3 && < 17 in a 4x4 letter grid
+     *
+     * - each call checks if current path creates a valid (meaningful) word
+     * - each call checks if current path(word) + box(letter) that can be visited can create a subword of a valid word
+     */
+    private List<List<Pair>> customDFS(Box box, Tree tree, List<Box> aliveBoxes, List<List<Pair>> validPaths, List<Pair> possiblePath){
 
         List<Integer> deadBoxes = getDead(aliveBoxes);
         deadBoxes.add(box.getId());
@@ -77,15 +65,9 @@ public class Grid {
         List<Pair> currentPath = new ArrayList<>();
         currentPath.addAll(possiblePath);
         currentPath.add(new Pair(box.getId(),box.getLetter()));
-        if(currentPath.size()>2&&tree.checkWord(pairToWord(currentPath))){
+        if(currentPath.size()>2&&tree.checkWord(pairsToWord(currentPath))){
             validPaths.add(currentPath);
-            System.out.println("Valid words= "+pairToWord(currentPath));
         }
-
-
-        if(nextAliveBoxes.isEmpty()){//return paths;
-            }
-
 
         for(Box alive : nextAliveBoxes){
             if(contains(box.getNeighbours(),alive.getId())){
@@ -94,14 +76,72 @@ public class Grid {
                 tempPath.addAll(currentPath);
                 tempPath.add(new Pair(alive.getId(),alive.getLetter()));
 
-                if(tree.checkPath(pairToWord(tempPath))){
+                if(tree.checkPath(pairsToWord(tempPath))){
                     customDFS(alive, tree, nextAliveBoxes, paths, currentPath);
                 }
             }
         }
-        //return null;
+        return validPaths;
     }
 
+    //Translates list of pairs into a word
+    public String pairsToWord(List<Pair> pairs){
+        String result="";
+        for(Pair pair : pairs){
+            result=result+pair.getLetter();
+        }
+        return result;
+    }
+
+    //Returns "dead" (used/seen) letters in each call of customDFS
+    private List<Integer>getDead(List<Box> Alive){
+        List<Integer> alive = new ArrayList<>();
+        List<Integer> dead = new ArrayList<>();
+
+        for(Box box : Alive){
+            alive.add(box.getId());
+        }
+
+        for(int i=1;i<17;i++){
+            if(!alive.contains(i)){
+                dead.add(i);
+            }
+        }
+
+        return dead;
+    }
+
+    private List<String> displaySorted(List<List<Pair>> listOfLists){   //List<List<Pair>> listOfLists
+        List<String> listOfStrings = new ArrayList<>();
+        for(List<Pair> list : listOfLists){
+            listOfStrings.add(pairsToWord(list));
+        }
+
+        //listOfLists.sort();
+
+        Set<String> noDups = new HashSet<String>();
+        noDups.addAll(listOfStrings);
+
+
+        for(String word : listOfStrings){
+            System.out.println(word);
+        }
+
+        /*for(String word : noDups){
+            System.out.println(word);
+        }*/
+
+        return listOfStrings;
+    }
+
+    //Displays on standard output list of lists of pairs
+    private void displayListOfListsOfPairs(List<List<Pair>> listOfLists){
+        for(List<Pair> list : listOfLists){
+            System.out.println(pairsToWord(list));
+        }
+    }
+
+    //Checks if list of boxes contains given id
     private boolean contains(List<Box> boxes, int id){
         for(Box box : boxes){
             if(box.getId()==id){
@@ -111,6 +151,7 @@ public class Grid {
         return false;
     }
 
+    //Returns box of given id
     private Box getBox(List<Box> boxes, int id){
         for(Box box:boxes){
             if(box.getId()==id){
@@ -120,30 +161,7 @@ public class Grid {
         return null;
     }
 
-    //just for efficiency and code cleanup
-    private void addNeighbours(int index, int[] neighbours, List<Box> boxes){
-        index=index - 1;
-        for(int neighbour : neighbours) {
-            neighbour=neighbour-1;
-            boxes.get(index).addNeighbours(boxes.get(neighbour));
-        }
-    }
-
-    private List<Box> removeBox(List<Box> boxes, int kill){
-            boxes.remove(kill-1);
-        return boxes;
-    }
-
-    private List<Box> removeBoxes(List<Box> boxes, List<Integer> toKill){
-        for(int kill : toKill){
-            if(contains(boxes,kill)){
-                boxes.remove(getBox(boxes,kill));
-            }
-        }
-        return boxes;
-    }
-
-
+    //initialize given 4x4 grid. In each call of customDFS it creates smaller grid (without "dead" boxes)
     private List<Box> initBoxes(List<Integer> deadBoxes){
         List<Box> boxes = new ArrayList<>();
 
@@ -180,34 +198,26 @@ public class Grid {
         return removeBoxes(boxes,deadBoxes);
     }
 
-    public void writeBoxes() {
-        int counter = 0;
-        for (Box box : boxes) {
-            if (counter == 4) {
-                System.out.print("\n");
-                counter=0;
-            }
-            System.out.print(box.getLetter());
-            counter++;
+    //gives each box (letter) information about its neighbourhood (surrounding letters)
+    private void addNeighbours(int index, int[] neighbours, List<Box> boxes){
+        index=index - 1;
+        for(int neighbour : neighbours) {
+            neighbour=neighbour-1;
+            boxes.get(index).addNeighbours(boxes.get(neighbour));
         }
-        System.out.print("\n");
+    }
+
+    //removes elements from list of boxes
+    private List<Box> removeBoxes(List<Box> boxes, List<Integer> toKillList){
+        for(int toKill : toKillList){
+            if(contains(boxes,toKill)){
+                boxes.remove(getBox(boxes,toKill));
+            }
+        }
+        return boxes;
     }
 }
 
-/**
- * Pairs (letter,id)
- * Each path made of those pairs
- */
 
-class Pair{
-    Character letter;
-    int id;
-    public Pair(int id, Character letter){
-        this.letter=letter;
-        this.id=id;
-    }
 
-    public Character getLetter(){
-        return letter;
-    }
-}
+
