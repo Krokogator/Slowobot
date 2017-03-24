@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -5,30 +7,25 @@ import java.util.Stack;
  */
 public class Box {
     private int id;
-    private Stack<Integer> path;
-    private Stack<Box> neighbour;
-    private boolean seen;
+    private Character letter;
+    private List<Box> neighbours = new ArrayList<>();
+    private List<Box> knowledge = new ArrayList<>();
 
-    public Box(int id){
+    private List<Integer> paths = new ArrayList<>();
+
+    public Box(int id, Character letter){
         this.id = id;
+        this.letter = letter;
     }
 
-    public Stack<Integer> getPath(Stack<Integer> path, Stack<Box> neighbour){
-        path.push(id);
-        this.neighbour=neighbour;
-        //getWhite(path);
-
-
-
-        return path;
+    public void addNeighbours(Box neighbour){
+        this.neighbours.add(neighbour);
     }
 
-   /* private Stack<Box> getWhite(Stack<Integer> Path){
-        Stack<Box> boxes;
-        return boxes;
-    }*/
+    public Character getLetter(){ return letter; }
+    public int getId(){ return id; }
+    public List<Box> getNeighbours(){ return neighbours; }
 
-    public void check(){    seen = true;    }
-    public void uncheck(){  seen = false;   }
+    //return List of paths (List<Integer>) from desired box
 
 }

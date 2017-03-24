@@ -19,32 +19,25 @@ public class Tree {
             children.add(node);        }
     }
 
-    public void addWord(String word){
-        Stack<Character> stack = convertToStack(word);      //convert String to letters stack
-        for(Node child : children){                         //find first letter, pop and do recursive on the rest
-            if(child.getLetter().equals(stack.peek())){
-                stack.pop();
-                addRecurent(child,stack);
-                break;
-            }
+    //checks if tree starts from the word first letter
+    public boolean checkWord(String word) {
+        //System.out.println("Check word: "+word);
+        if (word.equals("")) {
+            return false;
         }
-    }
-
-    public boolean checkWord(String word){
-        if(word.equals("")){return false;}
         Stack<Character> letters = convertToStack(word);
         Character letter = letters.pop();
-        for(Node child : children){
-            if(child.getLetter().equals(letter)){
-                if(letters.isEmpty()){
+        for (Node child : children) {
+            if (child.getLetter().equals(letter)) {
+                if (letters.isEmpty()) {
                     return child.isValid();
-                }
-                else return checkWord(child, letters);
+                } else return checkWord(child, letters);
             }
         }
         return false;
     }
 
+    //checks if tree contains whole word AND word is valid
     private boolean checkWord(Node node, Stack<Character> letters){
         Character letter = letters.pop();
         for(Node child : node.getChildren()){
@@ -57,7 +50,50 @@ public class Tree {
         return false;
     }
 
-    private boolean addRecurent(Node node, Stack<Character> letters){
+    //check if tree contains whole word (does NOT check if word is valid)
+    public boolean checkPath(String word){
+        //System.out.println("Check path: "+word);
+        if (word.equals("")) {
+            return false;
+        }
+        Stack<Character> otherLetters = convertToStack(word);
+        Character letter = otherLetters.pop();
+        for (Node child : children) {
+            if (child.getLetter().equals(letter)) {
+                if (otherLetters.isEmpty()) {
+                    return true;
+                } else return checkPath(child, otherLetters);
+            }
+        }
+        return false;
+    }
+
+    private boolean checkPath(Node node, Stack<Character> otherLetters){
+        Character letter = otherLetters.pop();
+        for(Node child : node.getChildren()){
+            if(child==null){    continue;   }
+            if(child.getLetter().equals(letter)){
+                if(otherLetters.isEmpty()){  return true;  }
+                return checkPath(child, otherLetters);
+            }
+        }
+        return false;
+    }
+
+    //public method for adding word to dictionary
+    public void addWord(String word){
+        Stack<Character> stack = convertToStack(word);      //convert String to letters stack
+        for(Node child : children){                         //find first letter, pop and do recursive on the rest
+            if(child.getLetter().equals(stack.peek())){
+                stack.pop();
+                addWord(child,stack);
+                break;
+            }
+        }
+    }
+
+    //recursive adding words to dictionary
+    private boolean addWord(Node node, Stack<Character> letters){
         boolean valid=false;
 
         //no more letters end statement
@@ -69,7 +105,7 @@ public class Tree {
 
         //if no children (but still have letters) we create new one
         if(node.getChildren().isEmpty()){
-            addRecurent(node.addChild(letter,valid),letters);
+            addWord(node.addChild(letter,valid),letters);
             return true;
         }
 
@@ -77,7 +113,7 @@ public class Tree {
         if(node.getChildren().size()==1){
             for(Node child : node.getChildren()){
                 if(child==null){
-                    addRecurent(node.addChild(letter,valid),letters);
+                    addWord(node.addChild(letter,valid),letters);
                     return true;
                 }
             }
@@ -91,13 +127,13 @@ public class Tree {
                     child.addNullChild();
                     return false;
                 } else {
-                    addRecurent(child, letters);
+                    addWord(child, letters);
                     return true;
                 }
             }
         }
 
-        addRecurent(node.addChild(letter,valid),letters);
+        addWord(node.addChild(letter,valid),letters);
         return true;
     }
 

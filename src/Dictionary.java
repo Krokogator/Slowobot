@@ -22,11 +22,24 @@ public class Dictionary {
         }
 
 
-        tree.printAll();
+        //tree.printAll();
         return tree;
     }
 
+    public Tree getTree(){ return tree; }
+
     public void testPacket(String testword){
+        System.out.print("Exists: ");
+        if(tree.checkPath(testword)){
+            System.out.println("true");
+        }
+        else{
+            System.out.println("false");
+        }
+    }
+
+    public void testValidPacket(String testword){
+        System.out.print("Valid: ");
         if(tree.checkWord(testword)){
             System.out.println("true");
         }
@@ -34,4 +47,6 @@ public class Dictionary {
             System.out.println("false");
         }
     }
+
+
 }

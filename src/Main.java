@@ -1,31 +1,36 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         Dictionary dictionary = new Dictionary();
-        Character[][] input = {{'a','b','e','f'},{'a','b','c','d'},{'a','b','c','d'},{'a','b','c','d'}};
+        Character[] input = {'w','t','h','a','c','a','k','f','h','r','n','t','m','o','s','i'};
+
+        Tree tree = dictionary.load("C:\\Users\\micha\\Desktop\\Dictionary\\slowa.txt");
 
         Grid grid = new Grid(input);
-        Tree tree = dictionary.load("C:\\Users\\micha\\Desktop\\Dictionary\\test.txt");
-
+        grid.writeBoxes();
+        //System.out.println(grid.test());
+        grid.findPaths(tree);
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String textinput="";
         System.out.print("Podaj wyraz: ");
         textinput = br.readLine();
         while(!textinput.equals("exit")) {
-            long startTime = System.currentTimeMillis();
+            long startTime = System.nanoTime();
             dictionary.testPacket(textinput);
-            long elapsedTime = System.currentTimeMillis() - startTime;
+            dictionary.testValidPacket(textinput);
+            long elapsedTime = System.nanoTime() - startTime;
             if(elapsedTime<1) {
                 System.out.println("Search Time: < 1ms" + "\n");
             }
             else
             {
-                System.out.println("Search Time: " + elapsedTime + "ms" + "\n");
+                System.out.println("Search Time: " + elapsedTime + "ns" + "\n");
             }
             textinput = br.readLine();
         }
