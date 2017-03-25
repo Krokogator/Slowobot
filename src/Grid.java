@@ -1,3 +1,6 @@
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -111,27 +114,49 @@ public class Grid {
         return dead;
     }
 
-    private List<String> displaySorted(List<List<Pair>> listOfLists){   //List<List<Pair>> listOfLists
+    private void displaySorted(List<List<Pair>> listOfLists){   //List<List<Pair>> listOfLists
         List<String> listOfStrings = new ArrayList<>();
-        for(List<Pair> list : listOfLists){
+        for(List<Pair> list : listOfLists) {
             listOfStrings.add(pairsToWord(list));
         }
 
-        //listOfLists.sort();
-
-        Set<String> noDups = new HashSet<String>();
-        noDups.addAll(listOfStrings);
 
 
-        for(String word : listOfStrings){
+
+        List<String> sorted = sortList(listOfStrings);
+
+        for(String word : sorted){
             System.out.println(word);
         }
+    }
 
-        /*for(String word : noDups){
-            System.out.println(word);
-        }*/
+    public List<String> sortList(List<String> mylist){
 
-        return listOfStrings;
+        Comparator<String> x = new Comparator<String>()
+        {
+            @Override
+            public int compare(String o1, String o2)
+            {
+                if(o1.length() > o2.length())
+                    return 1;
+
+                if(o2.length() > o1.length())
+                    return -1;
+
+                return 0;
+            }
+        };
+
+        Collections.sort(mylist,  x);
+
+        List<String> noDups = new ArrayList<>();
+        for(String w1 : mylist){
+            if(!noDups.contains(w1)){
+                noDups.add(w1);
+            }
+        }
+
+        return noDups;
     }
 
     //Displays on standard output list of lists of pairs

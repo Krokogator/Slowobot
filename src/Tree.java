@@ -11,7 +11,7 @@ import java.util.Stack;
  */
 public class Tree {
     private List<Node> children = new ArrayList<>();
-    private final Character[] polishRoots = new Character[]{'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','w','y','z','ć','ł','ó','ś','ż','ź'};
+    private final Character[] polishRoots = new Character[]{'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','w','y','z','ą','ę','ć','ł','ó','ś','ż','ź'};
 
     public Tree(){
         for (Character root : polishRoots){
