@@ -1,8 +1,10 @@
+package Dictionary;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by micha on 22.03.2017.
+ * Created by Michał(Krokogator) on 22.03.2017.
  */
 
 public class Box {

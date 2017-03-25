@@ -1,11 +1,13 @@
+package Dictionary;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator;
 
 /**
- * Created by micha on 22.03.2017.
+ * Created by Michał(Krokogator) on 22.03.2017.
  */
+
 public class LoadDict {
 
     public LoadDict(){}

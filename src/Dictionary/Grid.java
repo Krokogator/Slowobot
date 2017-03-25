@@ -1,10 +1,10 @@
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+package Dictionary;
+
 import java.util.*;
 
 /**
- * Created by micha on 22.03.2017.
+ * Created by Michał(Krokogator) on 22.03.2017.
+ *
  * Represents 4x4 grid from game and finds all possible words
  */
 
@@ -114,13 +114,11 @@ public class Grid {
         return dead;
     }
 
-    private void displaySorted(List<List<Pair>> listOfLists){   //List<List<Pair>> listOfLists
+    private void displaySorted(List<List<Pair>> listOfLists){   //List<List<Dict.Pair>> listOfLists
         List<String> listOfStrings = new ArrayList<>();
         for(List<Pair> list : listOfLists) {
             listOfStrings.add(pairsToWord(list));
         }
-
-
 
 
         List<String> sorted = sortList(listOfStrings);

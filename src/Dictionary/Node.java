@@ -1,30 +1,33 @@
+package Dictionary;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * Created by micha on 21.03.2017.
- * Single Node represents single letter
- * If Node has null child it means it creates a word (letter is the end of the word)
- * Still Node can have other children than 'null' for example in word "kite", we will find that letter 't' will have two children
+ * Created by Michał(Krokogator) on 21.03.2017.
+ *
+ * Single Dict.Node represents single letter
+ * If Dict.Node has null child it means it creates a word (letter is the end of the word)
+ * Still Dict.Node can have other children than 'null' for example in word "kite", we will find that letter 't' will have two children
  * one of those will be 'null' (because "kit" is a word) and the other one will be 'e', which will contain only one child 'null' as there is no word starting with "kite" (maybe there are but that's just an example)
  */
 
 public class Node {
-    private Character letter = null;
+    private char letter;
     private List<Node> children = new ArrayList<>();
 
-    public Node(Character letter){
+    public Node(char letter){
         this.letter=letter;
     }
 
-    public Node(Character letter, boolean isWord){
+    public Node(char letter, boolean isWord){
         this.letter = letter;
         if(isWord){ this.addNullChild(); }
     }
 
     public Character getLetter(){
-        return letter;
+        return Character.valueOf(letter);
     }
 
     public void addNullChild(){
@@ -40,7 +43,7 @@ public class Node {
         return false;
     }
 
-    public Node addChild(Character letter, boolean isWord){
+    public Node addChild(char letter, boolean isWord){
         Node child = new Node(letter,isWord);
         children.add(child);
         return child;

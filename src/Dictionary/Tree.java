@@ -1,12 +1,12 @@
-
+package Dictionary;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PrimitiveIterator;
 import java.util.Stack;
 
 /**
- * Created by micha on 21.03.2017.
+ * Created by Michał(Krokogator) on 21.03.2017.
+ *
  * One instance class that operates on nodes.
  */
 public class Tree {
