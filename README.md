@@ -13,7 +13,10 @@ Each round all on-line players have 1 minute and 40 seconds to find as many word
 
 
 ## What I'm working on?
-- learning android studio, programming on android to make my first android app
+- learning android studio, programming on android to make my first android app, to-do on android:
+  - implement current dictionary with manual input/output (almost done)
+  - Auto OUTPUT: create a background service that can emulate touch  input (need to read more about this)
+  - Auto INPUT: a way of semi/fully-automatic posesing image data from game (simple automatic printscreen while in game would do the job) 
 - implementing image recognition - automatic input (probably through neural networks that for each image of a letter will output a responging char, no need for manual 4x4 grid input)
 - implementing auto-solving (right now my output is a list of words and for each word also a corresponding path - "an instruction" how to make each word. Next step is to implement a method that will translate each instruction into touch input)
 
