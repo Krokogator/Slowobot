@@ -114,7 +114,7 @@ public class Grid {
         return dead;
     }
 
-    private void displaySorted(List<List<Pair>> listOfLists){   //List<List<Dict.Pair>> listOfLists
+    private void displaySorted(List<List<Pair>> listOfLists){   //List<List<DictionaryController.Pair>> listOfLists
         List<String> listOfStrings = new ArrayList<>();
         for(List<Pair> list : listOfLists) {
             listOfStrings.add(pairsToWord(list));

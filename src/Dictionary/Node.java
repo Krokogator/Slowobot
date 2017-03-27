@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * Created by Michał(Krokogator) on 21.03.2017.
  *
- * Single Dict.Node represents single letter
- * If Dict.Node has null child it means it creates a word (letter is the end of the word)
- * Still Dict.Node can have other children than 'null' for example in word "kite", we will find that letter 't' will have two children
+ * Single DictionaryController.Node represents single letter
+ * If DictionaryController.Node has null child it means it creates a word (letter is the end of the word)
+ * Still DictionaryController.Node can have other children than 'null' for example in word "kite", we will find that letter 't' will have two children
  * one of those will be 'null' (because "kit" is a word) and the other one will be 'e', which will contain only one child 'null' as there is no word starting with "kite" (maybe there are but that's just an example)
  */
 

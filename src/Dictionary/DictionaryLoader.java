@@ -8,9 +8,9 @@ import java.io.IOException;
  * Created by Michał(Krokogator) on 22.03.2017.
  */
 
-public class LoadDict {
+public class DictionaryLoader {
 
-    public LoadDict(){}
+    public DictionaryLoader(){}
 
     public Tree loadToTree(Tree tree, String path) throws IOException {
         long timeStart = System.currentTimeMillis();

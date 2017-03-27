@@ -11,15 +11,15 @@ import java.io.InputStreamReader;
  * Operates on trees
  * Access to simple functions/methods like .exist, .add, etc.
  */
-public class Dict {
+public class DictionaryController {
     private Tree tree;
 
-    public Dict(){
+    public DictionaryController(){
         tree = new Tree();
     }
 
     public Tree load(String path){
-        LoadDict loader = new LoadDict();
+        DictionaryLoader loader = new DictionaryLoader();
         try {
             loader.loadToTree(tree, path);
         } catch (IOException e) {
