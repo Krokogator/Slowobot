@@ -1,5 +1,7 @@
 package Dictionary;
 
+import ImageProcessing.ImageController;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,37 +36,62 @@ public class DictionaryController {
         Tree tree = load("C:\\Users\\micha\\Desktop\\Dictionary\\slowa.txt");
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Podaj ciąg znaków (bez spacji): ");
+        System.out.println("Wpisz 'image' aby sprawdzić obraz lub 16 literowy ciąg znaków");
         String textinput = br.readLine();
 
         while(!textinput.equals("exit")) {
-            if(textinput.length()==16) {
+
+            startTime = System.currentTimeMillis();
+
+
+            if(textinput.equals("image")){
+                System.out.println("Podaj nazwę pliku bez rozszerzenia:");
+                String fileName = br.readLine();
                 startTime = System.currentTimeMillis();
-
-                //task start
-                char[] chars = textinput.toCharArray();
-                Character[] input = new Character[16];
-                for (int i = 0; i < 16; i++) {
-                    input[i] = chars[i];
-                }
-                Grid grid = new Grid(input);
-                grid.findPaths(tree);
-                //task end
-
-                elapsedTime = System.currentTimeMillis() - startTime;
-                if (elapsedTime < 1) {
-                    System.out.println("Search Time: < 1ms" + "\n");
-                } else {
-                    System.out.println("Search Time: " + elapsedTime + "ms" + "\n");
-                }
-                System.out.print("Podaj ciąg znaków (bez spacji): ");
-                textinput = br.readLine();
+                textinput=checkImage(fileName);
             }
-            else{
-                System.out.println("Niewłaściwy ciąg znaków");
-                System.out.print("Podaj ciąg znaków (bez spacji): ");
-                textinput = br.readLine();
+
+            if(textinput.length()==16){
+                checkText(textinput);
             }
+
+
+
+            elapsedTime = System.currentTimeMillis() - startTime;
+            if (elapsedTime < 1) {
+                System.out.println("Search Time: < 1ms" + "\n");
+            } else {
+                System.out.println("Search Time: " + elapsedTime + "ms" + "\n");
+            }
+
+            System.out.println("Wpisz 'image' aby sprawdzić obraz lub 16 literowy ciąg znaków");
+            textinput = br.readLine();
+        }
+    }
+
+    private String checkImage(String fileName) {
+        ImageController imageController = new ImageController(fileName);
+        return imageController.getString();
+
+    }
+
+    private void checkText(String textinput) throws IOException {
+        if(textinput.length()==16) {
+
+
+            //task start
+            char[] chars = textinput.toCharArray();
+            Character[] input = new Character[16];
+            for (int i = 0; i < 16; i++) {
+                input[i] = chars[i];
+            }
+            Grid grid = new Grid(input);
+            grid.findPaths(tree);
+            //task end
+
+        }
+        else{
+            System.out.println("Niewłaściwy ciąg znaków");
         }
     }
 

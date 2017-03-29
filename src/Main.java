@@ -14,8 +14,8 @@ public class Main {
 
 
 
-        ImageController imageController = new ImageController();
-        System.out.println(imageController.getString());
+//        ImageController imageController = new ImageController();
+//        System.out.println(imageController.getString());
 
 
 
