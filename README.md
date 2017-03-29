@@ -10,19 +10,15 @@ Each round all on-line players have 1 minute and 40 seconds to find as many word
 - adding words to dictionary (a file containing around 2.7 million Polish words takes about 7-10 seconds to load on Windows/4 cores CPU, and eats around 750mb of RAM memory)
 - checking if word exists in dictionary (single check takes around 0.1 ms thanks to tree implementation)
 - solving 4x4 grids (takes 5-35 ms depending on how many words exists in grid)
+- image recognition (scans an image and returns all 16 letters)
 
 
 ## What I'm working on?
-- learning android studio, programming on android to make my first android app, to-do on android:
-  - implement current dictionary with manual input/output (almost done)
-  - Auto OUTPUT: create a background service that can emulate touch  input (need to read more about this)
-  - Auto INPUT: a way of semi/fully-automatic posesing image data from game (simple automatic printscreen while in game would do the job) 
-- implementing image recognition - automatic input (probably through neural networks that for each image of a letter will output a responging char, no need for manual 4x4 grid input)
+- learning android studio, programming on android to make my first android app
 - implementing auto-solving (right now my output is a list of words and for each word also a corresponding path - "an instruction" how to make each word. Next step is to implement a method that will translate each instruction into touch input)
 
 ### Personal thoughts / actual problems
 - first attempts to run my app on android resulted in memory exceptions (my program, especially dictionary, eats too much RAM)
 - to solve memory problem I'm thinking of:
-  - <strike>deleting some of the words from word bank (my file contains not only words in their basic form, but it's not easy to automatically determine if given word is in its basic form and I would have to load only 1.5 million words (delete 1.3 million so almost a half) for the app to start)</strike>
-  - <strike>another way of representing a dictionary (tree takes a bit of space but is extremely quick, actually too quick)</strike>
-  - HashSet<> after little bit of testing should work absolutely fine for Android implementation
+  - deleting some of the words from word bank (my file contains not only words in their basic form, but it's not easy to automatically determine if given word is in its basic form and I would have to load only 1.5 million words (delete 1.3 million so almost a half) for the app to start)
+  - another way of representing a dictionary (tree takes a bit of space but is extremely quick, actually too quick)
