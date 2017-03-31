@@ -22,3 +22,6 @@ Each round all on-line players have 1 minute and 40 seconds to find as many word
 - to solve memory problem I'm thinking of:
   - deleting some of the words from word bank (my file contains not only words in their basic form, but it's not easy to automatically determine if given word is in its basic form and I would have to load only 1.5 million words (delete 1.3 million so almost a half) for the app to start)
   - another way of representing a dictionary (tree takes a bit of space but is extremely quick, actually too quick)
+
+### Firsts tests (running on pc and sending input through adb to my phone)
+[youtube link](https://youtu.be/ODCfISpU4Hk)
