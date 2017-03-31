@@ -33,7 +33,7 @@ public class DictionaryController {
 
     public void runGridSolver() throws IOException {
         long startTime, elapsedTime;
-        Tree tree = load("C:\\Users\\micha\\Desktop\\Dictionary\\maly.txt");
+        Tree tree = load("Resources\\slownik.txt");
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Wćiśnij enter aby sprawdzić obraz lub 16 literowy ciąg znaków");
@@ -45,14 +45,7 @@ public class DictionaryController {
 
 
             if(textinput.equals("")){
-                //manual file name input
-               /* System.out.println("Podaj nazwę pliku bez rozszerzenia:");
-                String fileName = br.readLine();
-                startTime = System.currentTimeMillis();
-                textinput=checkImage(fileName);*/
-
-
-                String mainCommand=("cmd /B start cmd.exe /K \"adb shell screencap -p /sdcard/screencap.png && adb pull /sdcard/screencap.png & exit\"");
+                String mainCommand=("cmd /B start cmd.exe /K \"adb shell screencap -p /sdcard/screencap.png && adb pull /sdcard/screencap.png \"");
                 try {
                     Runtime.getRuntime().exec(mainCommand);
                 } catch (IOException e) {
@@ -91,8 +84,6 @@ public class DictionaryController {
     private void checkText(String textinput) throws IOException {
         if(textinput.length()==16) {
 
-
-            //task start
             char[] chars = textinput.toCharArray();
             Character[] input = new Character[16];
             for (int i = 0; i < 16; i++) {
@@ -100,7 +91,6 @@ public class DictionaryController {
             }
             Grid grid = new Grid(input);
             grid.findPaths(tree);
-            //task end
 
         }
         else{

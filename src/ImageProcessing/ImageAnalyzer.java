@@ -22,49 +22,28 @@ public class ImageAnalyzer {
 
     //input is an arrays of sample images of each letter from Polish alphabet
     private void initSamples(){
-        BufferedImage[] toResize = ImageLoader.getSamples("C:\\Users\\micha\\Desktop\\Dictionary\\ImageProcessing\\Samples\\",32);
+        BufferedImage[] toResize = ImageLoader.getSamples("Resources\\Samples\\",32);
         for(int i=0;i<32;i++){
             samples[i]=ImageLoader.slicerSingle(toResize[i]);
-            //samples[i]=toResize[i];
         }
     }
 
     //compares two img files
     public float compare(BufferedImage img1, BufferedImage img2){
-        float percentage = 0;
         int count = 0;
-            //ImageLoader.saveImg(img1,333);
-            //ImageLoader.saveImg(img2,444);
-            // take buffer data from both image files //
-            //DataBuffer dbA = img1.getData().getDataBuffer();
-           //int sizeA = dbA.getSize();
-            //DataBuffer dbB = img2.getData().getDataBuffer();
-            //int sizeB = dbB.getSize();
-            // compare data-buffer objects //
-            //if (sizeA != sizeB) {
-
-                for (int x = 0; x < img1.getWidth(); x++) {
-                    for(int y = 0; y < img1.getHeight(); y++){
-                        Color color1 = new Color(img1.getRGB(x,y));
-                        Color color2 = new Color(img2.getRGB(x,y));
-                        int blue1 = color1.getRed();
-                        int blue2 = color2.getRed();
+            for (int x = 0; x < img1.getWidth(); x++) {
+                for(int y = 0; y < img1.getHeight(); y++){
+                    Color color1 = new Color(img1.getRGB(x,y));
+                    Color color2 = new Color(img2.getRGB(x,y));
+                    int blue1 = color1.getRed();
+                    int blue2 = color2.getRed();
                     if (blue1<blue2||blue1>blue2) {
                         count = count + 1;
                     }
-
-
                 }
-                }
-                percentage = (count * 100) / (img1.getHeight()*img1.getWidth());
-           // } else {
-               // System.out.println("Both the images are not of same size");
-           // }
-
+            }
         return count;
     }
-
-
 
     private Character getChar(BufferedImage image){
         float lowest=compare(image,samples[0]);
@@ -76,7 +55,6 @@ public class ImageAnalyzer {
                 lowest=percentage;
                 position=i;
             }
-            //System.out.println("Percentydż od i= "+i+", = "+percentage);
         }
 
         Character letter;
@@ -116,22 +94,17 @@ public class ImageAnalyzer {
         map.put(31,'ł');
 
         letter=map.get(position);
-
-
-
-
         return letter;
     }
 
 
     public String analyzeImage(BufferedImage screenShot) {
         BufferedImage[] images = ImageLoader.slicer(screenShot);
-        ImageLoader.saveImages(images,"C:\\Users\\micha\\Desktop\\Dictionary\\ImageProcessing\\Temp\\",1);
-        images=ImageLoader.getSamples("C:\\Users\\micha\\Desktop\\Dictionary\\ImageProcessing\\Temp\\",16);
+        ImageLoader.saveImages(images,"Resources\\Temp\\",1);
+        images=ImageLoader.getSamples("Resources\\Temp\\",16);
         String output = "";
 
         for(BufferedImage image : images){
-            //output=output+getChar(ImageLoader.resize(image,50,59));
             output=output+getChar(image);
         }
 
