@@ -36,7 +36,7 @@ public class DictionaryController {
         Tree tree = load("C:\\Users\\micha\\Desktop\\Dictionary\\maly.txt");
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Wpisz 'image' aby sprawdzić obraz lub 16 literowy ciąg znaków");
+        System.out.println("Wćiśnij enter aby sprawdzić obraz lub 16 literowy ciąg znaków");
         String textinput = br.readLine();
 
         while(!textinput.equals("exit")) {
@@ -44,11 +44,24 @@ public class DictionaryController {
             startTime = System.currentTimeMillis();
 
 
-            if(textinput.equals("image")){
-                System.out.println("Podaj nazwę pliku bez rozszerzenia:");
+            if(textinput.equals("")){
+                //manual file name input
+               /* System.out.println("Podaj nazwę pliku bez rozszerzenia:");
                 String fileName = br.readLine();
                 startTime = System.currentTimeMillis();
-                textinput=checkImage(fileName);
+                textinput=checkImage(fileName);*/
+
+
+                String mainCommand=("cmd /B start cmd.exe /K \"adb shell screencap -p /sdcard/screencap.png && adb pull /sdcard/screencap.png & exit\"");
+                try {
+                    Runtime.getRuntime().exec(mainCommand);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Grid.timer(10);
+                textinput=checkImage("screencap");
+                System.out.println(textinput);
             }
 
             if(textinput.length()==16){

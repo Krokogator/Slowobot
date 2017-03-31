@@ -52,7 +52,7 @@ public class Grid {
             customDFS(box, tree, newboxes, paths, currentPath);
         }
         //displayListOfListsOfPairs(paths);
-        displaySorted(paths);
+        displaySorted(deleteDuplicates(paths));
     }
 
     /**
@@ -103,6 +103,26 @@ public class Grid {
         for(Pair pair : pairs){
             paths.add(pair.getId());
         }
+        return paths;
+    }
+
+    private List<List<Pair>> deleteDuplicates(List<List<Pair>> paths){
+        List<List<Pair>> noDups = new ArrayList<>();
+        Set<List<Pair>> toDelete = new HashSet<>();
+        System.out.println(paths.size());
+        for(List<Pair> path : paths){
+            for(List<Pair> path2 : paths){
+                if(!pairsToPaths(path).equals(pairsToPaths(path2))&&!(toDelete.contains(path)||toDelete.contains(path2))){
+                    if(pairsToWord(path).equals(pairsToWord(path2))){
+                        toDelete.add(path);
+                        System.out.println("usuwam: = "+pairsToWord(path));
+                    }
+                }
+            }
+        }
+
+        paths.removeAll(toDelete);
+        System.out.println(paths.size());
         return paths;
     }
 
@@ -217,9 +237,10 @@ public class Grid {
         return sequence;
     }
 
-    private long timer(int length){
+    public static long timer(int length){
         long timer=0;
-        timer=(length-2) *250 +1050;
+        //*250 +1050 - ac
+        timer=(length-2) *190 +1100;
         long start = System.currentTimeMillis();
         long elapsed = System.currentTimeMillis() - start;
         while(elapsed < timer){
@@ -237,7 +258,7 @@ public class Grid {
         pathCommand=pathCommand+endTouch;
 
 
-        String mainCommand=("cmd /c start cmd.exe /K \""+pathCommand+"\"");
+        String mainCommand=("cmd /B start cmd.exe /K \""+pathCommand+"\"");
         try {
             Runtime.getRuntime().exec(mainCommand);
         } catch (IOException e) {

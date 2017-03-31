@@ -26,7 +26,7 @@ public class ImageController {
     public String getString(){
         String output="null";
         //loads png file
-        BufferedImage screenShot = imageLoader.getImage("C:/Users/micha/Desktop/Dictionary/ImageProcessing/"+fileName+".png");
+        BufferedImage screenShot = imageLoader.getImage("C:\\Users\\micha\\IdeaProjects\\tempslowobot\\Slowobot\\"+fileName+".png");
 
         //analyzes screenShot and returns String
         output=imageAnalyzer.analyzeImage(screenShot);
