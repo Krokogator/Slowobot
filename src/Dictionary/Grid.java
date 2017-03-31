@@ -1,5 +1,6 @@
 package Dictionary;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -25,6 +26,7 @@ class Pair{
     public Character getLetter(){
         return letter;
     }
+    public int getId() { return  id; }
 }
 public class Grid {
 
@@ -88,12 +90,20 @@ public class Grid {
     }
 
     //Translates list of pairs into a word
-    public String pairsToWord(List<Pair> pairs){
+    private String pairsToWord(List<Pair> pairs){
         String result="";
         for(Pair pair : pairs){
             result=result+pair.getLetter();
         }
         return result;
+    }
+
+    private List<Integer> pairsToPaths(List<Pair> pairs){
+        List<Integer> paths = new ArrayList<>();
+        for(Pair pair : pairs){
+            paths.add(pair.getId());
+        }
+        return paths;
     }
 
     //Returns "dead" (used/seen) letters in each call of customDFS
@@ -114,17 +124,124 @@ public class Grid {
         return dead;
     }
 
-    private void displaySorted(List<List<Pair>> listOfLists){   //List<List<DictionaryController.Pair>> listOfLists
+    private void displaySorted(List<List<Pair>> listOfLists) {   //List<List<DictionaryController.Pair>> listOfLists
         List<String> listOfStrings = new ArrayList<>();
-        for(List<Pair> list : listOfLists) {
+        List<List<Integer>> listOfInts = new ArrayList<>();
+        for (List<Pair> list : listOfLists) {
             listOfStrings.add(pairsToWord(list));
+            listOfInts.add(pairsToPaths(list));
         }
 
 
         List<String> sorted = sortList(listOfStrings);
 
-        for(String word : sorted){
+        for (String word : sorted) {
             System.out.println(word);
+        }
+
+        List<List<Integer>> ordered = new ArrayList<>();
+        int length=16;
+        List<List<Integer>> toRemove = new ArrayList<>();
+        while(!listOfInts.isEmpty()) {
+            for (List<Integer> path : listOfInts) {
+                if (path.size() == length) {
+                    ordered.add(path);
+                    toRemove.add(path);
+                }
+                listOfInts.remove(toRemove);
+                toRemove.clear();
+
+            }
+            length--;
+            if(length<3){ break;}
+        }
+
+        for (List<Integer> path : ordered) {
+            System.out.println(path.toString());
+            runPath(path);
+            timer(path.size());
+
+        }
+        List<Integer> testPath = new ArrayList<>();
+        testPath.add(1);
+        testPath.add(2);
+        testPath.add(3);
+        testPath.add(4);
+        testPath.add(5);
+        testPath.add(6);
+        testPath.add(7);
+        testPath.add(8);
+        testPath.add(9);
+        testPath.add(10);
+        testPath.add(11);
+        testPath.add(12);
+        testPath.add(13);
+        testPath.add(14);
+        testPath.add(15);
+        testPath.add(16);
+        //runPath(testPath);
+    }
+
+    private String xInput(int x){
+        return "adb shell sendevent /dev/input/event1 3 53 "+x;
+    }
+
+    private String yInput(int y){
+        return "adb shell sendevent /dev/input/event1 3 54 "+y;
+    }
+
+    private String createTouchSequence(List<Integer> path){
+        String sequence="";
+        int x1=200,x2=550,x3=900,x4=1250;
+        int y1=1050,y2=1470,y3=1890,y4=2310;
+
+        for(Integer id : path){
+            if(id==1){sequence=sequence+xInput(x1)+" & "+yInput(y1)+" & ";}
+            else if(id==2){sequence=sequence+xInput(x2)+" & "+yInput(y1)+" & ";}
+            else if(id==3){sequence=sequence+xInput(x3)+" & "+yInput(y1)+" & ";}
+            else if(id==4){sequence=sequence+xInput(x4)+" & "+yInput(y1)+" & ";}
+            else if(id==5){sequence=sequence+xInput(x1)+" & "+yInput(y2)+" & ";}
+            else if(id==6){sequence=sequence+xInput(x2)+" & "+yInput(y2)+" & ";}
+            else if(id==7){sequence=sequence+xInput(x3)+" & "+yInput(y2)+" & ";}
+            else if(id==8){sequence=sequence+xInput(x4)+" & "+yInput(y2)+" & ";}
+            else if(id==9){sequence=sequence+xInput(x1)+" & "+yInput(y3)+" & ";}
+            else if(id==10){sequence=sequence+xInput(x2)+" & "+yInput(y3)+" & ";}
+            else if(id==11){sequence=sequence+xInput(x3)+" & "+yInput(y3)+" & ";}
+            else if(id==12){sequence=sequence+xInput(x4)+" & "+yInput(y3)+" & ";}
+            else if(id==13){sequence=sequence+xInput(x1)+" & "+yInput(y4)+" & ";}
+            else if(id==14){sequence=sequence+xInput(x2)+" & "+yInput(y4)+" & ";}
+            else if(id==15){sequence=sequence+xInput(x3)+" & "+yInput(y4)+" & ";}
+            else if(id==16){sequence=sequence+xInput(x4)+" & "+yInput(y4)+" & ";}
+            sequence=sequence+"adb shell sendevent /dev/input/event1 0 0 0 & ";
+        }
+        return sequence;
+    }
+
+    private long timer(int length){
+        long timer=0;
+        timer=(length-2) *250 +1050;
+        long start = System.currentTimeMillis();
+        long elapsed = System.currentTimeMillis() - start;
+        while(elapsed < timer){
+            elapsed = System.currentTimeMillis() - start;
+        }
+        return elapsed;
+    }
+
+    private void runPath(List<Integer> path){
+        String pathCommand="";
+        String initTouch = "adb shell sendevent /dev/input/event1 3 57 14 & adb shell sendevent /dev/input/event1 1 330 1 & adb shell sendevent /dev/input/event1 1 325 1 & ";
+        String endTouch = "adb shell sendevent /dev/input/event1 3 57 4294967295 & adb shell sendevent /dev/input/event1 1 330 0 & adb shell sendevent /dev/input/event1 1 325 0 & adb shell sendevent /dev/input/event1 0 0 0 & exit";
+        pathCommand=pathCommand+initTouch;
+        pathCommand=pathCommand+createTouchSequence(path);
+        pathCommand=pathCommand+endTouch;
+
+
+        String mainCommand=("cmd /c start cmd.exe /K \""+pathCommand+"\"");
+        try {
+            Runtime.getRuntime().exec(mainCommand);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

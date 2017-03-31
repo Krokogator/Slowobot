@@ -33,7 +33,7 @@ public class DictionaryController {
 
     public void runGridSolver() throws IOException {
         long startTime, elapsedTime;
-        Tree tree = load("C:\\Users\\micha\\Desktop\\Dictionary\\slowa.txt");
+        Tree tree = load("C:\\Users\\micha\\Desktop\\Dictionary\\maly.txt");
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Wpisz 'image' aby sprawdzić obraz lub 16 literowy ciąg znaków");

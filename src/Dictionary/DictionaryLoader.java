@@ -17,7 +17,9 @@ public class DictionaryLoader {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
-                tree.addWord(line);
+                if(!line.equals("")) {
+                    tree.addWord(line);
+                }
             }
         }
         summary(System.currentTimeMillis() - timeStart);
