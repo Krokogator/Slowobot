@@ -33,7 +33,7 @@ public class DictionaryController {
 
     public void runGridSolver() throws IOException {
         long startTime, elapsedTime;
-        Tree tree = load("Resources\\slownik.txt");
+        Tree tree = load("Resources\\slownik2.txt");
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Wćiśnij enter aby sprawdzić obraz lub 16 literowy ciąg znaków");
@@ -52,7 +52,7 @@ public class DictionaryController {
                     e.printStackTrace();
                 }
 
-                Grid.timer(10);
+                Grid.timer(12);
                 textinput=checkImage("screencap");
                 System.out.println(textinput);
             }
