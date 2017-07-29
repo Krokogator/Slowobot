@@ -1,5 +1,7 @@
 package Dictionary;
 
+import sun.tools.jar.CommandLine;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -34,10 +36,14 @@ public class Grid {
     private List<Box> boxes= new ArrayList<>();
     private List<List<Pair>> paths = new ArrayList<>();
 
+    private CmdController cmdController;
+
     public Grid(Character[] grid){
         this.grid=grid;
         List<Integer> noDeadBoxes = new ArrayList<>();
         this.boxes = initBoxes(noDeadBoxes);
+
+        cmdController = new CmdController();
     }
 
     //runs my custom DFS algorithm on each letter/box
@@ -179,9 +185,10 @@ public class Grid {
         for (List<Integer> path : ordered) {
             System.out.println(path.toString());
             runPath(path);
-            timer(path.size());
+            //timer(path.size());
 
         }
+        cmdController.printCmd();
         List<Integer> testPath = new ArrayList<>();
         testPath.add(1);
         testPath.add(2);
@@ -240,7 +247,7 @@ public class Grid {
     public static long timer(int length){
         long timer=0;
         //*250 +1050 - ac
-        timer=(length-2) *190 +1100;
+        timer=(length-2) *190 +700; //1100
         long start = System.currentTimeMillis();
         long elapsed = System.currentTimeMillis() - start;
         while(elapsed < timer){
@@ -249,7 +256,7 @@ public class Grid {
         return elapsed;
     }
 
-    private void runPath(List<Integer> path){
+    private void runPath(List<Integer> path) {
         String pathCommand="";
         String initTouch = "adb shell sendevent /dev/input/event1 3 57 14 & adb shell sendevent /dev/input/event1 1 330 1 & adb shell sendevent /dev/input/event1 1 325 1 & ";
         String endTouch = "adb shell sendevent /dev/input/event1 3 57 4294967295 & adb shell sendevent /dev/input/event1 1 330 0 & adb shell sendevent /dev/input/event1 1 325 0 & adb shell sendevent /dev/input/event1 0 0 0 & exit";
@@ -258,12 +265,32 @@ public class Grid {
         pathCommand=pathCommand+endTouch;
 
 
-        String mainCommand=("cmd /B start cmd.exe /K \""+pathCommand+"\"");
+        String mainCommand=("cmd /B cmd.exe /K \""+pathCommand+"\"");
+
+        System.out.println(mainCommand);
+
         try {
-            Runtime.getRuntime().exec(mainCommand);
+            Process p = Runtime.getRuntime().exec(mainCommand);
+            try {
+                p.waitFor();
+                p.destroy();
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
+
+/*
+        CommandLine cmdLine = CommandLine.parse(mainCommand);
+        DefaultExecutor executor = new DefaultExecutor();
+        int exitValue = executor.execute(cmdLine);*/
+
+        //cmdController.runCommand(mainCommand);
     }
 
     public List<String> sortList(List<String> mylist){

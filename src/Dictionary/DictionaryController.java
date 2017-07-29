@@ -48,12 +48,19 @@ public class DictionaryController {
                 String mainCommand=("cmd /B start cmd.exe /K \"adb shell screencap -p /sdcard/screencap.png && adb pull /sdcard/screencap.png \"");
                 try {
                     Runtime.getRuntime().exec(mainCommand);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                Grid.timer(12);
+                Grid.timer(10);
+                long imageCheckTime = System.currentTimeMillis();
+
                 textinput=checkImage("screencap");
+
+                long elapsed =  System.currentTimeMillis() - imageCheckTime;
+                System.out.println("Image analyzed in: " + elapsed);
+
                 System.out.println(textinput);
             }
 
