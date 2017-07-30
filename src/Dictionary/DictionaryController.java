@@ -45,20 +45,25 @@ public class DictionaryController {
 
 
             if(textinput.equals("")){
-                String mainCommand=("cmd /B start cmd.exe /K \"adb shell screencap -p /sdcard/screencap.png && adb pull /sdcard/screencap.png \"");
+                String mainCommand=("cmd /B start cmd.exe /K \"adb shell screencap -p /sdcard/screencap.png && adb pull /sdcard/screencap.png & exit \"");
                 try {
-                    Runtime.getRuntime().exec(mainCommand);
+                    Process p = Runtime.getRuntime().exec(mainCommand);
 
+                    p.waitFor();
+                    p.destroy();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                Grid.timer(10);
+                //Grid.timer(12);
                 long imageCheckTime = System.currentTimeMillis();
 
                 textinput=checkImage("screencap");
 
                 long elapsed =  System.currentTimeMillis() - imageCheckTime;
+
                 System.out.println("Image analyzed in: " + elapsed);
 
                 System.out.println(textinput);

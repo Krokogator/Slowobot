@@ -184,11 +184,14 @@ public class Grid {
 
         for (List<Integer> path : ordered) {
             System.out.println(path.toString());
+
             runPath(path);
+
+
             //timer(path.size());
 
         }
-        cmdController.printCmd();
+        //cmdController.printCmd();
         List<Integer> testPath = new ArrayList<>();
         testPath.add(1);
         testPath.add(2);
@@ -273,13 +276,13 @@ public class Grid {
             Process p = Runtime.getRuntime().exec(mainCommand);
             try {
                 p.waitFor();
-                p.destroy();
+                p.destroyForcibly();
             }
             catch (InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
 
