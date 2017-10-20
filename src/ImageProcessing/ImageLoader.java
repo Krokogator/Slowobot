@@ -38,7 +38,7 @@ public class ImageLoader {
         for(int i=1;i<5;i++) {
             for(int j=1;j<5;j++){
                 slices[counter]=image.getSubimage(x,y,166,224);
-                ImageLoader.saveImg(slices[counter],999);
+                //ImageLoader.saveImg(slices[counter],999);
                 x=x+348;
                 counter++;
             }
@@ -87,7 +87,7 @@ public class ImageLoader {
                     }
                 }
             }
-            saveImg(img, i);
+            //saveImg(img, i);
             i++;
         }
 

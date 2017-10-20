@@ -1,6 +1,8 @@
 package Dictionary;
 
 import ImageProcessing.ImageController;
+import TimeMeasure.Stopper;
+import TimeMeasure.Timer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,54 +38,48 @@ public class DictionaryController {
         Tree tree = load("Resources\\slownik2.txt");
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Wćiśnij enter aby sprawdzić obraz lub 16 literowy ciąg znaków");
+        System.out.println("Press enter to start");
         String textinput = br.readLine();
 
-        while(!textinput.equals("exit")) {
+        Timer timer = new Timer(130);
+        Stopper stopper = new Stopper();
 
-            startTime = System.currentTimeMillis();
+        while(true) {
+            System.out.println("Round start!");
+            timer.reset();
+            stopper.start();
 
+            String mainCommand=("cmd /B start cmd.exe /K \"adb shell screencap -p /sdcard/screencap.png && adb pull /sdcard/screencap.png & exit \"");
+            try {
+                Process p = Runtime.getRuntime().exec(mainCommand);
 
-            if(textinput.equals("")){
-                String mainCommand=("cmd /B start cmd.exe /K \"adb shell screencap -p /sdcard/screencap.png && adb pull /sdcard/screencap.png & exit \"");
-                try {
-                    Process p = Runtime.getRuntime().exec(mainCommand);
-
-                    p.waitFor();
-                    p.destroy();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                //Grid.timer(12);
-                long imageCheckTime = System.currentTimeMillis();
-
-                textinput=checkImage("screencap");
-
-                long elapsed =  System.currentTimeMillis() - imageCheckTime;
-
-                System.out.println("Image analyzed in: " + elapsed);
-
-                System.out.println(textinput);
+                p.waitFor();
+                p.destroy();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
-            if(textinput.length()==16){
+            System.out.println("Image loaded in: "+ stopper.getMilis()+" ms");
+
+            textinput=checkImage("screencap");
+
+            System.out.println("Text input: "+textinput);
+
+            if(textinput.length()==16) {
                 checkText(textinput);
             }
 
+            isEndOfRound(timer);
+        }
+    }
 
-
-            elapsedTime = System.currentTimeMillis() - startTime;
-            if (elapsedTime < 1) {
-                System.out.println("Search Time: < 1ms" + "\n");
-            } else {
-                System.out.println("Search Time: " + elapsedTime + "ms" + "\n");
+    private boolean isEndOfRound(Timer timer){
+        while(true){
+            if(timer.isElapsed()){
+                return true;
             }
-
-            System.out.println("Wpisz 'image' aby sprawdzić obraz lub 16 literowy ciąg znaków");
-            textinput = br.readLine();
         }
     }
 
